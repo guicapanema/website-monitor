@@ -26,7 +26,7 @@ class WebsiteFactory extends Factory
             'user_id' => User::factory(),
             'name' => $this->faker->company(),
             'url' => $this->faker->url(),
-            'enabled' => true,
+            'enabled' => $this->faker->boolean(),
         ];
     }
 }
