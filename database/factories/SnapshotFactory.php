@@ -25,6 +25,7 @@ class SnapshotFactory extends Factory
         return [
             'website_id' => Website::factory(),
             'content' => $this->faker->randomHtml(),
+            'created_at' => $this->faker->dateTimeThisMonth(),
         ];
     }
 }

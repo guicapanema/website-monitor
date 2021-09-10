@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Snapshot;
 use App\Models\User;
 use App\Models\Website;
 use Illuminate\Database\Seeder;
@@ -22,6 +23,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('test'), // password
         ]);
 
-        Website::factory(5)->create();
+        Website::factory(5)
+            ->has(Snapshot::factory()->count(3))
+            ->create();
     }
 }
