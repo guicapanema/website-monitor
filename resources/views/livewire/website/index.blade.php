@@ -20,7 +20,7 @@
                                         Status
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Last snapshot
+                                        Last Change
                                     </th>
                                     <th scope="col" class="relative px-6 py-3">
                                         <span class="sr-only">Edit</span>
@@ -50,10 +50,15 @@
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $website->latestSnapshot?->created_at ?? '-' }}
+                                            {{ $website->latestSnapshot?->created_at->diffForHumans() ?? '-' }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                            <a
+                                                href="{{ route('website.edit', ['website' => $website]) }}"
+                                                class="text-indigo-600 hover:text-indigo-900"
+                                            >
+                                                Edit
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
