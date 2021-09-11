@@ -1,7 +1,8 @@
 <?php
 
-namespace Tests\Feature\Commands;
+namespace Tests\Feature\Jobs;
 
+use App\Jobs\TakeSnapshot;
 use App\Models\Snapshot;
 use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,8 +32,7 @@ class TakeSnapshotTest extends TestCase
             $this->website->url => Http::response($content, 200),
         ]);
 
-        $this->artisan('snapshot:take', ['website' => $this->website->id])
-             ->assertExitCode(0);
+        TakeSnapshot::dispatchSync($this->website);
 
         $this->assertCount(2, $this->website->snapshots);
         $this->assertEquals($this->website->latestSnapshot->content, $content);
@@ -47,8 +47,7 @@ class TakeSnapshotTest extends TestCase
             $this->website->url => Http::response($content, 200),
         ]);
 
-        $this->artisan('snapshot:take', ['website' => $this->website->id])
-             ->assertExitCode(0);
+        TakeSnapshot::dispatchSync($this->website);
 
         $this->assertCount(1, $this->website->snapshots);
     }
