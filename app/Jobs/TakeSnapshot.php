@@ -37,13 +37,20 @@ class TakeSnapshot implements ShouldQueue
         $response = Http::get($this->website->url);
         $response->throw();
 
-        $latestSnapshotContent = $this->website->latestSnapshot?->content;
-        if ($response->body() === $latestSnapshotContent) {
+        $newContent = $response->body();
+        if (! $this->hasContentChanged($newContent)) {
             return;
         }
 
-        $this->website->snapshots()->create([
-            'content' => $response->body(),
+        return $this->website->snapshots()->create([
+            'content' => $newContent,
         ]);
+    }
+
+    protected function hasContentChanged($newContent)
+    {
+        $latestContent = $this->website->latestSnapshot?->content;
+
+        return $newContent !== $latestContent;
     }
 }
