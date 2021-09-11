@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function() {
     Route::get('/', WebsiteIndex::class)->name('website.index');
+    Route::get('/website/create', WebsiteEdit::class)->name('website.create');
     Route::get('/website/{website}/edit', WebsiteEdit::class)->name('website.edit');
 });
 
