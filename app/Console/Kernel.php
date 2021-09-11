@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\TakeSnapshot;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,11 +25,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $websites = Website::all();
-
-        $websites->each(function ($website) {
-            $schedule->command('take:snapshot', ['website' => $website->id])->hourly();
-        });
+        $schedule->call(function() {
+            Website::all()->each(function ($website) {
+                TakeSnapshot::dispatch($website);
+            });
+        })->everyHour();
     }
 
     /**
