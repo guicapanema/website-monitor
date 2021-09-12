@@ -18,7 +18,7 @@ class CreateSnapshotsTable extends Migration
             $table->foreignId('website_id')
                   ->constrained()
                   ->onDelete('cascade');
-            $table->text('content');
+            $table->mediumText('content');
             $table->timestamps();
         });
     }
