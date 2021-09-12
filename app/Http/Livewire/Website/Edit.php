@@ -12,7 +12,7 @@ class Edit extends Component
 
     protected $rules = [
         'website.name' => 'required|max:255',
-        'website.url' => 'required|url|max:255',
+        'website.url' => 'required|url|max:65535',
     ];
 
     public function mount(Website $website)
