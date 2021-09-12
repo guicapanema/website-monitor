@@ -34,10 +34,10 @@ class TakeSnapshot implements ShouldQueue
      */
     public function handle()
     {
-        $response = Http::get($this->website->url);
+        $response = Http::accept('text/html')->get($this->website->url);
         $response->throw();
 
-        $newContent = $response->body();
+        $newContent = mb_convert_encoding($response->body(), 'UTF-8');
         if (! $this->hasContentChanged($newContent)) {
             return;
         }
