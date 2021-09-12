@@ -50,7 +50,7 @@
                                                     {{ $website->name }}
                                                 </div>
                                                 <div class="text-sm text-gray-500">
-                                                    {{ $website->url }}
+                                                    {{ $website->base_url }}
                                                 </div>
                                             </a>
                                         </td>

@@ -25,4 +25,11 @@ class Website extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getBaseUrlAttribute()
+    {
+        $url = parse_url($this->url);
+
+        return "{$url['scheme']}://{$url['host']}";
+    }
 }
