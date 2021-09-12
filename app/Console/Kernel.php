@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
             Website::all()->each(function ($website) {
                 TakeSnapshot::dispatch($website);
             });
-        })->everyHour();
+        })->hourly();
     }
 
     /**
