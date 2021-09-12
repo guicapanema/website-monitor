@@ -23,8 +23,10 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('test'), // password
         ]);
 
-        Website::factory(5)
-            ->has(Snapshot::factory()->count(3))
-            ->create();
+        Snapshot::withoutEvents(function () {
+            Website::factory(5)
+                ->has(Snapshot::factory()->count(3))
+                ->create();
+        });
     }
 }
