@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\TakeSnapshot;
+use App\Models\Website;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
