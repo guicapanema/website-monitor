@@ -18,7 +18,7 @@ class CreateWebsitesTable extends Migration
             $table->foreignId('user_id')
                   ->constrained();
             $table->string('name');
-            $table->string('url');
+            $table->text('url');
             $table->boolean('enabled');
             $table->timestamps();
         });
