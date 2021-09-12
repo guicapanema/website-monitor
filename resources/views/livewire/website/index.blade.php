@@ -62,13 +62,43 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $website->latestSnapshot?->created_at->diffForHumans() ?? '-' }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a
-                                                href="{{ route('website.edit', ['website' => $website]) }}"
-                                                class="text-indigo-600 hover:text-indigo-900"
-                                            >
-                                                Edit
-                                            </a>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <x-dropdown align="right" width="48">
+
+                                                <x-slot name="trigger">
+                                                    <button class="flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-900 hover:text-indigo-900 focus:outline-none focus:text-indigo-900 focus:border-indigo-900 transition duration-150 ease-in-out ml-auto">
+                                                        <div>Options</div>
+
+                                                        <div class="ml-1">
+                                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                            </svg>
+                                                        </div>
+                                                    </button>
+                                                </x-slot>
+
+                                                <x-slot name="content">
+                                                    <x-dropdown-link :href="route('website.edit', ['website' => $website])">
+                                                        Edit
+                                                    </x-dropdown-link>
+
+                                                    <!-- Authentication -->
+                                                    <form
+                                                        method="POST"
+                                                        action="{{ route('website.destroy', ['website' => $website]) }}"
+                                                    >
+                                                        @csrf
+                                                        @method('delete')
+
+                                                        <x-dropdown-link
+                                                            :href="route('website.destroy', ['website' => $website])"
+                                                            @click.prevent="$el.closest('form').submit()"
+                                                        >
+                                                            Delete
+                                                        </x-dropdown-link>
+                                                    </form>
+                                                </x-slot>
+                                            </x-dropdown>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -16,7 +16,8 @@ class CreateSnapshotsTable extends Migration
         Schema::create('snapshots', function (Blueprint $table) {
             $table->id();
             $table->foreignId('website_id')
-                  ->constrained();
+                  ->constrained()
+                  ->onDelete('cascade');
             $table->text('content');
             $table->timestamps();
         });
