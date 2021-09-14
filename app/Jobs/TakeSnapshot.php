@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\Website;
+use DOMDocument;
+use DOMNode;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -51,6 +53,38 @@ class TakeSnapshot implements ShouldQueue
     {
         $latestContent = $this->website->latestSnapshot?->content;
 
-        return $newContent !== $latestContent;
+        return $this->getCleanBody($newContent) !== $this->getCleanBody($latestContent);
+    }
+
+    protected function getCleanBody($content)
+    {
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        @$dom->loadHTML($content);
+
+        $body = $dom->getElementsByTagName('body')->item(0);
+
+        $this->removeElements($body, [
+            'script',
+            'noscript',
+            'link'
+        ]);
+
+        return $dom->saveHTML($body);
+    }
+
+    protected function removeElements(&$dom, $tagNames)
+    {
+        if (! is_array($tagNames)) {
+            $tagNames = [$tagNames];
+        }
+
+        foreach ($tagNames as $tagName) {
+            $elements = $dom->getElementsByTagName($tagName);
+
+            for ($i = ($elements->length - 1); $i >= 0; $i--) {
+                $element = $elements->item($i);
+                $element->parentNode->removeChild($element);
+            }
+        }
     }
 }

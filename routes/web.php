@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/jobs', function() {
+    \App\Models\Website::all()->each(function ($website) {
+        \App\Jobs\TakeSnapshot::dispatchSync($website);
+    });
+});
+
 
 Route::middleware(['auth'])->group(function() {
     Route::get('/', WebsiteIndex::class)->name('website.index');
